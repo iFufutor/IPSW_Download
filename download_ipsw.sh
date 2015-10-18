@@ -11,7 +11,7 @@ else
     # hardware_id=....
     # please delete the following 'if' bloc if you specify your ID in the previous command
 	if [[ -z $1 ]]; then
-		echo -e "Please enter the iDevice ID : \nex: iPhone7,2\n"
+		echo -e "Please enter the iDevice ID : \nex: iPhone8,1 for an iPhone 6s\n"
 		read hardware_id
 	else 
 		hardware_id=$1
