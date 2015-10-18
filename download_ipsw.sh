@@ -9,7 +9,7 @@ if [[ "$(ping -c 1 8.8.8.8 | grep "100% packet loss" )" != "" ]]; then
 else
 
     # hardware_id=....
-    # please delete the following 'if' bloc if you specify your ID in the previous command
+    # please delete the following 'if' bloc if you specify your device's ID in the previous command
 	if [[ -z $1 ]]; then
 		echo -e "Please enter the iDevice ID : \nex: iPhone8,1 for an iPhone 6s\n"
 		read hardware_id
