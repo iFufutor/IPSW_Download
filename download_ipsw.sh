@@ -1,15 +1,17 @@
 ## Script created by iFufutor. Thanks to Leon Klingele for his API ##
 #!/bin/bash
 
+error1='Error : Please verify your network connection'
+error2='IPSW already downloaded...'
+error3='Mismatching hash. Corrupted file ?'
+
 echo -e "##########################\n#  Download latest ipsw  #\n##########################\n\n\n"
 
 if [[ "$(ping -c 1 8.8.8.8 | grep "100% packet loss" )" != "" ]]; then
-	echo "Error : Please verify your network connection"
+	echo $(date) : $error1 >> ipsw.log
+	echo $error1
 	exit 1
 else
-
-    # hardware_id=....
-    # please delete the following 'if' bloc if you specify your device's ID in the previous command
 	if [[ -z $1 ]]; then
 		echo -e "Please enter the iDevice ID : \nex: iPhone8,1 for an iPhone 6s\n"
 		read hardware_id
@@ -25,25 +27,29 @@ else
         local_hash=$(md5 -q $file)
         remote_hash=$(curl -s https://istheapplestoredown.com/api/updates/ios | grep $local_hash | cut -d: -f2 | cut -d\" -f2)
         if [ "$local_hash" == "$remote_hash" ]; then
-            echo -e "\nIPSW already downloaded...\n"
+            echo $(date) : $error2 >> ipsw.log
+	    echo $error2
             exit 1
         else
-            echo "Mismatching hash. Corrupted file ?"
+	    echo $(date) : $error3 >> ipsw.log
+	    echo $error3
         fi
 		exit 1
 
     else
-		echo -e "\nDownloading ..."
+		echo "Downloading ..."
 		curl -O -# $url
         local_hash=$(md5 -q $file)
         remote_hash=$(curl -s https://istheapplestoredown.com/api/updates/ios | grep $local_hash | cut -d: -f2 | cut -d\" -f2)
         if [ "$local_hash" == "$remote_hash" ]; then
-            echo "Success !"
+            echo $(date) : $hardware_id Success ! >>ipsw.log
+	    echo $hardware_id "Success !"
             exit 1
         else
-            echo "Mismatching hash. Corrupted file ?"
+	    echo $(date) : $error3 >> ipsw.log
+            echo $error3
             rm $file
         fi
-	fi
+    fi
 fi
 
